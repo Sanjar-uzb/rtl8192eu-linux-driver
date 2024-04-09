@@ -83,43 +83,47 @@ that it can used to rebuild the module on kernel upgrades.
     ```shell
     sudo dkms add .
     ```
+5. if dkms install rtl8192eu/1.0 Error! to
+   sudo dkms status
+   sudo dkms remove rtl8192eu/1.0 --all
+  sudo apt-get install linux-headers-$(uname -r)
 
-5. Build and install the driver.
+6. Build and install the driver.
 
     ```shell
     sudo dkms install rtl8192eu/1.0
     ```
 
-6. Distributions based on Debian & Ubuntu have RTL8XXXU driver present & running in kernelspace. To use our RTL8192EU driver, we need to blacklist RTL8XXXU.
+7. Distributions based on Debian & Ubuntu have RTL8XXXU driver present & running in kernelspace. To use our RTL8192EU driver, we need to blacklist RTL8XXXU.
 
     ```shell
     echo "blacklist rtl8xxxu" | sudo tee /etc/modprobe.d/rtl8xxxu.conf
     ```
 
-7. Force RTL8192EU Driver to be active from boot.
+8. Force RTL8192EU Driver to be active from boot.
     ```shell
     echo -e "8192eu\n\nloop" | sudo tee /etc/modules
     ```
 
-8. Newer versions of Ubuntu has weird plugging/replugging issue (Check #94). This includes weird idling issues, To fix this:
+9. Newer versions of Ubuntu has weird plugging/replugging issue (Check #94). This includes weird idling issues, To fix this:
 
     ```shell
     echo "options 8192eu rtw_power_mgnt=0 rtw_enusbss=0" | sudo tee /etc/modprobe.d/8192eu.conf
     ```
 
-9. Update changes to Grub & initramfs
+10. Update changes to Grub & initramfs
 
     ```shell
     sudo update-grub; sudo update-initramfs -u
     ```
 
-10. Reboot system to load new changes from newly generated initramfs.
+11. Reboot system to load new changes from newly generated initramfs.
 
     ```shell
     systemctl reboot -i
     ```
 
-11. Check that your kernel has loaded the right module:
+12. Check that your kernel has loaded the right module:
  
     ```shell
     sudo lshw -c network
